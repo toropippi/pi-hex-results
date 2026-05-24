@@ -1,0 +1,42 @@
+screen 0,640,2000,0
+fnums=18190
+sn=28//Å‰‚Ì10Œ…‚ ‚Á‚Ä‚é‚©Šm”F
+
+apath="H:\\pi\\10‹Œ…"//4000
+bpath="H:\\pi\\10‹Œ…ˆø‚­5Œ…"//3999
+sdim str1,1024
+sdim str2,1024
+sdim outstr,1024*1024*8
+
+repeat 7
+ccnt=cnt
+	repeat fnums
+	exist apath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt"
+	if strsize==-1:continue
+	exist bpath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt"
+	if strsize==-1:continue
+	
+	bload apath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt",str1_
+	notesel str1_
+	noteget p1,0
+	
+	bload bpath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt",str2_
+	
+	notesel str2_
+	noteget p2,0
+
+	p2=strmid(p2,5,sn)
+	p1=strmid(p1,0,sn)
+	if p2!=p1{
+		outstr+=""+ccnt+"_"+cnt+"\n"
+		mes ""+ccnt+"_"+cnt
+		mes p1
+		mes p2
+	}
+	loop
+loop
+
+screen 2,640,480,0
+mesbox outstr,640,480,5
+//bsave "outtxt.txt",outstr,strlen(outstr)
+wait 600

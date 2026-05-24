@@ -1,0 +1,75 @@
+fnums=18189+1
+sn=31//最初の10桁あってるか確認
+
+apath="H:\\pi\\10京桁引く5桁"//4000
+title ""+apath+""
+//bpath="H:\\pi\\3999兆桁"//3999
+sdim str1_,1024
+sdim p1,1024
+sdim outstr,1024*1024*8
+sdim devname,1024,32
+dim bcount,32//1デバイスが計算した合計バッチ数
+ddim btime,32//1デバイスが計算した合計時間
+
+
+repeat 7
+ccnt=cnt
+	repeat fnums
+	sdim str1_,4096
+	bload apath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt",str1_
+	notesel str1_
+			if noteinfo(0)!=3{
+				screen 100,700,700
+				mes ccnt
+				mes cnt
+				mes noteinfo(0)
+				mes str1_
+				stop
+			}
+	noteget p1,1
+
+		repeat 32
+			if (devname.cnt==p1){
+				bcount.cnt++
+				noteget p1,2
+				ip1=int(p1)
+				if (ip1<0):ip1=24*60*60*1000+ip1
+				btime.cnt+=0.001*ip1
+				break
+			}else{
+				if (devname.cnt==""){
+					devname.cnt=p1
+					mes p1
+					bcount.cnt++
+					noteget p1,2
+					ip1=int(p1)
+					if (ip1<0):ip1=24*60*60*1000+ip1
+					btime.cnt+=0.001*ip1
+					break
+				}
+			}
+		loop
+	loop
+loop
+
+
+
+//まとめ
+repeat 32
+	if (devname.cnt!=""){
+		outstr+=""+devname.cnt+"	"
+		outstr+=""+bcount.cnt+"	"
+		outstr+=""+(btime.cnt/60/60/24)+"\n"
+	}
+loop
+
+
+mesbox outstr,640,480,5
+bsave "統計.txt",outstr,strlen(outstr)
+stop
+
+
+/*
+仕事量(batch数)	計算時間(sec)	計算時間(day)	1batchあたりの計算時間(sec)
+
+*/

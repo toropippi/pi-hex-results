@@ -1,0 +1,83 @@
+//比較対象1,2のバッチサイズが異なる場合
+
+screen 0,640,2000,0
+//fnums=29104
+fnums2=18190
+sn=28//最初の10桁あってるか確認
+
+apath="H:\\pi\\10京桁"//4000
+bpath="H:\\pi\\10京桁引く5桁"//3999
+sdim str1a_,1024
+sdim str1b_,1024
+sdim str2_,1024
+sdim outstr,1024*1024*8
+
+repeat 7
+ccnt=cnt
+	repeat fnums2
+	exist bpath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt"
+	if strsize==-1:continue
+	
+	bload bpath+"\\"+ccnt+"\\"+ccnt+"_"+cnt+".txt",str2_
+	notesel str2_
+	noteget p2,0
+	
+	bload apath+"\\"+ccnt+"\\"+ccnt+"_"+(cnt*2)+".txt",str1a_
+	notesel str1a_
+	noteget p1a,0
+	bload apath+"\\"+ccnt+"\\"+ccnt+"_"+(cnt*2+1)+".txt",str1b_
+	notesel str1b_
+	noteget p1b,0
+
+	gosub*hexadd
+
+	p2=strmid(p2,5,sn)
+	p1=strmid(p1,0,sn)
+	if p2!=p1{
+		outstr+=""+ccnt+"_"+cnt+"\n"
+		mes ""+ccnt+"_"+cnt
+		mes p1
+		mes p2
+	}
+
+	if cnt\1024==0:title ""+cnt+"":await 1
+
+	loop
+loop
+
+screen 2,640,480,0
+mesbox outstr,640,480,5
+//bsave "outtxt.txt",outstr,strlen(outstr)
+stop
+end
+
+
+*hexadd
+	p1=""
+	cc=0
+		repeat 48
+		aa=peek(p1a,48-1-cnt)
+		bb=peek(p1b,48-1-cnt)
+		if (aa<59){
+			aa-=48
+		}else{
+			aa-=87
+		}
+		if (bb<59){
+			bb-=48
+		}else{
+			bb-=87
+		}
+		cc+=aa+bb
+
+		ans=cc\16
+		if ans>=10{
+			ans+=87
+		}else{
+			ans+=48
+		}
+		poke p1,48-1-cnt,ans
+		cc/=16
+		loop
+	
+	return
