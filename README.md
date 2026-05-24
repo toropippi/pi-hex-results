@@ -6,17 +6,21 @@
 
 ## Data
 
-Release assetsとして、次のZIPファイルを配布します。
+計算結果ZIPは v1.0 Release からダウンロードできます。
 
-- `1999兆桁.zip`
-- `3999兆桁.zip`
-- `4000兆桁.zip`
-- `1京桁.zip`
-- `1京桁引く5桁.zip`
-- `2京桁.zip`
-- `2京桁引く5桁.zip`
-- `10京桁.zip`
-- `10京桁引く5桁.zip`
+https://github.com/toropippi/pi-hex-results/releases/tag/v1.0
+
+Release assetsとして、次のZIPファイルを配布しています。
+
+- `pi-hex-1999-trillion.zip`
+- `pi-hex-3999-trillion.zip`
+- `pi-hex-4000-trillion.zip`
+- `pi-hex-1e16.zip`
+- `pi-hex-1e16-minus-5.zip`
+- `pi-hex-2e16.zip`
+- `pi-hex-2e16-minus-5.zip`
+- `pi-hex-1e17.zip`
+- `pi-hex-1e17-minus-5.zip`
 
 各ZIPには、計算結果のテキストファイルと、集計用CSVが含まれます。
 
@@ -27,7 +31,7 @@ ZIPファイルのSHA256は `checksums-sha256.txt` に記録しています。
 Windows PowerShellでは、次のように確認できます。
 
 ```powershell
-Get-FileHash .\10京桁.zip -Algorithm SHA256
+Get-FileHash .\pi-hex-1e17.zip -Algorithm SHA256
 ```
 
 出力された `Hash` が `checksums-sha256.txt` の値と一致すれば、ダウンロードしたZIPが公開時のファイルと一致していることを確認できます。
